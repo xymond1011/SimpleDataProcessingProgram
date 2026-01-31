@@ -9,9 +9,6 @@ public class Main {
         Utilities utilities = new Utilities();
         Display display = new Display();
 
-        ArrayList<Dataset> dataset = utilities.readDataset(
-                Main.class.getResourceAsStream("/Kaggle_Datasets.csv")
-        );
-        display.mainMenu(dataset);
+        display.mainMenu();
     }
 }
