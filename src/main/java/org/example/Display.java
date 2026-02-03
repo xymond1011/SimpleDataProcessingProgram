@@ -16,19 +16,16 @@ public class Display {
         frame = new JFrame();
         frame.setTitle("Simple Data Preprocessing Program");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setPreferredSize(new Dimension(400, 600));
-        frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
 
     //main menu to be shown as the program runs.
     public void mainMenu() {
         String[] menuChoices = {
-                "",
-                "",
-                "",
-                "",
-                "",
+                "", "",
+                "", "",
+                "", "",
+                "", "",
                 ""
         };
         JPanel panel = new JPanel();
@@ -43,12 +40,27 @@ public class Display {
     }
     private JPanel menuButtonPanel(String[] buttonNames) {
         ArrayList<JButton> menuButtons = addButtons(buttonNames.length, buttonNames);
-        JPanel panel = new JPanel(new GridLayout(buttonNames.length, 0));
+        int rows = buttonNames.length;
+        int columns = 0;
+        if (buttonNames.length % 2 == 0) {
+            rows = buttonNames.length / 2;
+            columns = 2;
+        } else if (buttonNames.length % 3 == 0) {
+            rows = buttonNames.length / 3;
+            columns = 3;
+        }
+        GridLayout buttonLayout = new GridLayout(rows, columns);
+        buttonLayout.setVgap(15);
+        buttonLayout.setHgap(15);
+        JPanel panel = new JPanel(buttonLayout);
         for (JButton button : menuButtons) {
             panel.add(button);
         }
-        return panel;
+        JPanel wrappedPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 50, 50));
+        wrappedPanel.add(panel);
+        return wrappedPanel;
     }
+
     //displays tabular form of the dataset
     public JPanel displayDatasetTable(String[] header, ArrayList<Dataset> dataset) {
         String[] buttonNames = {
@@ -58,6 +70,8 @@ public class Display {
         JTable dataTable = initializeTable(header, dataset);
         ArrayList<JButton> buttons = addButtons(buttonNames.length, buttonNames);
         JPanel buttonPanel = new JPanel(new GridLayout(0, buttons.size()));
+        buttonPanel.add(buttonPanel);
+        buttonPanel.setPreferredSize(new Dimension(200,300));
         for (JButton button : buttons) {
             buttonPanel.add(button);
         }

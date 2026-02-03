@@ -39,6 +39,24 @@ public class Dataset {
         lastUpdate = LocalDate.now();
     }
 
+    /**
+     * Used mostly when reading a txt file to initialize the object with its
+     * proper parameters. This  class is specific to a certain dataset only --- Kaggle Datasets.
+     * @param title title column of the dataset
+     * @param usability usability column of the dataset
+     * @param numOfFiles number of files column of the dataset
+     * @param typeOfFiles file type column of the dataset
+     * @param fileSize file size column of the dataset
+     * @param voteCounts vote count column of the dataset
+     * @param medal medal column of the dataset
+     * @param urlReference URL column of the dataset
+     * @param numOfColumns column count column of the dataset
+     * @param views views column of the dataset
+     * @param downloads downloads column of the dataset
+     * @param downloadPerView download per view column of the dataset
+     * @param dateCreated date of creation column of the dataset
+     * @param lastUpdate latest update column of the dataset
+     */
     public Dataset(
             String title,
             float usability,
