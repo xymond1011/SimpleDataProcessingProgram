@@ -12,7 +12,7 @@ import java.util.ArrayList;
  * <br>5. Single Item Information (Embedded to another processes)
  */
 public class Main {
-    public static void main(String[] args) {
+    public void run() {
         Utilities utilities = new Utilities();
         Display display = new Display();
 
@@ -22,5 +22,15 @@ public class Main {
         dsArray.add(ds);
 //        display.displayDatasetTable(header,dsArray, "Some text");
         display.mainMenu();
+    }
+    public static void main(String[] args) {
+        Main program;
+
+        try {
+            program = new Main();
+            program.run();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
