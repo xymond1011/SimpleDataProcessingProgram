@@ -1,6 +1,9 @@
 package org.example;
 
-import javax.xml.crypto.Data;
+import org.example.controller.DataProcessorController;
+import org.example.model.DataProcessorModel;
+import org.example.view.DataProcessorView;
+
 import java.util.ArrayList;
 
 /**
@@ -13,15 +16,9 @@ import java.util.ArrayList;
  */
 public class Main {
     public void run() {
-        Utilities utilities = new Utilities();
-        Display display = new Display();
-
-        String[] header = {"Sample", "Dataset"};
-        Dataset ds = new Dataset();
-        ArrayList<Dataset> dsArray = new ArrayList<>();
-        dsArray.add(ds);
-//        display.displayDatasetTable(header,dsArray, "Some text");
-        display.mainMenu();
+        DataProcessorView view = new DataProcessorView();
+        DataProcessorModel model = new DataProcessorModel();
+        DataProcessorController dataProcessingProgram = new DataProcessorController(model, view);
     }
     public static void main(String[] args) {
         Main program;

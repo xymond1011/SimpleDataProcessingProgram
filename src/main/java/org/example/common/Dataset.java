@@ -1,4 +1,4 @@
-package org.example;
+package org.example.common;
 
 import java.time.LocalDate;
 import java.net.URI;
@@ -14,6 +14,7 @@ public class Dataset {
     private int voteCounts;
     private String medal;
     private URI urlReference;
+    private String keywords;
     private short numOfColumns;
     private int views;
     private int downloads;
@@ -31,6 +32,7 @@ public class Dataset {
         voteCounts = 0;
         medal = "";
         urlReference = URI.create("");
+        keywords = "";
         numOfColumns = 0;
         views = 0;
         downloads = 0;
@@ -66,6 +68,7 @@ public class Dataset {
             int voteCounts,
             String medal,
             URI urlReference,
+            String keywords,
             short numOfColumns,
             int views,
             int downloads,
@@ -80,6 +83,7 @@ public class Dataset {
         this.voteCounts = voteCounts;
         this.medal = medal;
         this.urlReference = urlReference;
+        this.keywords = keywords;
         this.numOfColumns = numOfColumns;
         this.views = views;
         this.downloads = downloads;
@@ -119,6 +123,10 @@ public class Dataset {
 
     public void setUrlReference(URI urlReference) {
         this.urlReference = urlReference;
+    }
+
+    public void setKeywords(String keywords) {
+        this.keywords = keywords;
     }
 
     public void setNumOfColumns(short numOfColumns) {
@@ -178,6 +186,10 @@ public class Dataset {
         return urlReference;
     }
 
+    public String getKeywords() {
+        return keywords;
+    }
+
     public int getNumOfColumns() {
         return numOfColumns;
     }
@@ -203,53 +215,15 @@ public class Dataset {
     }
 
     //Additional Operations
-    /**
-     * Converts Dataset to Tabular Form for Display.
-     * Keywords column is not included because it's too long to display.
-     * @return String representation of a Dataset table.
-     */
-    public String toTable(int part) {
-        if (part == 1) {
-            return String.format(
-                    "%-50s|%-10s|%-15s|%-20s|%-15s|",
-                    title,
-                    usability == 0 ? "N/A":String.valueOf(usability),
-                    numOfFiles == 0 ? "N/A":String.valueOf(numOfFiles),
-                    typeOfFiles,
-                    fileSize
-            );
-        } else if (part == 2) {
-            return String.format(
-                    "%-15s|%-15s|%-70s|%-15s|",
-                    voteCounts == 0 ? "N/A":String.valueOf(voteCounts),
-                    medal,
-                    urlReference.toString(),
-                    numOfColumns == 0 ? "N/A":String.valueOf(numOfColumns)
-            );
-        } else {
-            return String.format(
-                    "%-10s|%-15s|%-20s|%-15s|%-15s|",
-                    views == 0 ? "N/A":String.valueOf(views),
-                    downloads == 0 ? "N/A":String.valueOf(downloads),
-                    downloadPerView == 0 ? "N/A":String.valueOf(downloadPerView),
-                    dateCreated == null ? "N/A":dateCreated.toString(),
-                    lastUpdate == null ? "N/A":lastUpdate.toString()
-            );
-        }
+    @Override
+    public String toString() {
+        return String.format("%s,%.1f,%d,%s,%s,%d,%s,%s,%s,%d,%d,%d,%.2f,%s,%s",
+                title, (usability), numOfFiles, typeOfFiles, fileSize, voteCounts,
+                medal, urlReference, keywords, numOfColumns, views, downloads,
+                downloadPerView, dateCreated, lastUpdate
+                );
     }
-
-    //Sorters
-    public static Comparator<Dataset> sortByTitle = Comparator.comparing(Dataset::getTitle);
-    public static Comparator<Dataset> sortByUsability = Comparator.comparing(Dataset::getUsability);
-    public static Comparator<Dataset> sortByNumOfFiles = Comparator.comparing(Dataset::getNumOfFiles);
-    public static Comparator<Dataset> sortByNumOfColumns = Comparator.comparing(Dataset::getNumOfColumns);
-    public static Comparator<Dataset> sortByFileSize = Comparator.comparing(Dataset::getFileSize);
-    public static Comparator<Dataset> sortByVoteCounts = Comparator.comparing(Dataset::getVoteCounts);
-    public static Comparator<Dataset> sortByDownloads = Comparator.comparing(Dataset::getDownloads);
-    public static Comparator<Dataset> sortByMedal = Comparator.comparing(Dataset::getMedal);
-    public static Comparator<Dataset> sortByUrlReference = Comparator.comparing(Dataset::getUrlReference);
-    public static Comparator<Dataset> sortByDateCreated = Comparator.comparing(Dataset::getDateCreated);
-    public static Comparator<Dataset> sortByLastUpdate = Comparator.comparing(Dataset::getLastUpdate);
 }
+
 
 
