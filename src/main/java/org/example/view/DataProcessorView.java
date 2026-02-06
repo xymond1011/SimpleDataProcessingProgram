@@ -25,6 +25,7 @@ public class DataProcessorView {
     public DataProcessorView() {
         JFrame frame = new JFrame("Data Processing Program");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setResizable(false);
         frame.setLocationRelativeTo(null);
         frame.add(mainPanel);
         frame.pack();

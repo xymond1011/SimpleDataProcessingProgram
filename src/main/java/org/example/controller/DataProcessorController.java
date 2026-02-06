@@ -7,7 +7,6 @@ import javax.swing.*;
 import javax.swing.table.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.Map;
 
@@ -135,5 +134,6 @@ public class DataProcessorController {
         JLabel label = VIEW.getSortTableTitleLabel();
         label.setText(text);
         label.setFont(new Font(label.getFont().getName(), Font.BOLD, 20));
+        label.setHorizontalAlignment(SwingConstants.CENTER);
     }
 }
