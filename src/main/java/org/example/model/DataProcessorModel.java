@@ -36,17 +36,14 @@ public class DataProcessorModel {
     }
 
     public List<Map<String, Object>> getDatabaseContent() {
-        List<Map<String, Object>> dbContent;
-
         try (Statement statement = connection.createStatement();
              ResultSet result = statement.executeQuery(query)) {
-            dbContent = toMapList(result, false);
+            return toMapList(result, false);
 
         } catch (SQLException e) {
             System.err.println("Database error: " + e.getMessage());
             return null;
         }
-        return dbContent;
     }
 
     public List<Map<String, Object>> toMapList(ResultSet result, boolean withKeywordsColumn) throws SQLException {
