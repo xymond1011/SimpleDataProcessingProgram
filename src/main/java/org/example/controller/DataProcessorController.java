@@ -1,43 +1,43 @@
 package org.example.controller;
 
-import org.example.Main;
 import org.example.model.DataProcessorModel;
 import org.example.view.DataProcessorView;
-import org.example.view.SortingProcessesView;
 
 import javax.swing.*;
 import javax.swing.table.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.Map;
 
 public class DataProcessorController {
-    private final DataProcessorModel MAIN_MODEL;
-    private final DataProcessorView MAIN_VIEW;
-    private final SortingProcessesView SORT_VIEW = new SortingProcessesView();
+    private final DataProcessorModel MODEL;
+    private final DataProcessorView VIEW;
 
     public DataProcessorController(DataProcessorModel model, DataProcessorView view) {
-        MAIN_MODEL = model;
-        MAIN_VIEW = view;
-        initialize();
-    }
+        MODEL = model;
+        VIEW = view;
 
-    private void initialize() {
-        setButtonListener();
         loadDatasetTable();
+        initializeButtonListeners();
     }
 
-    private void setButtonListener() {
-        MAIN_VIEW.setButtonListener(MAIN_VIEW.getSortBtn(), (ActionEvent e) -> {
-            SORT_VIEW.initialize();
-        } );
+    private void loadDatasetTable() {
+        MODEL.setQuery("SELECT * FROM `dataset_entries_phpmyadmin`");
+        MapListToTable(MODEL.getDatabaseContent(), VIEW.getDatasetTable());
+        changeSortTableLabelDisplay("Kaggle Dataset");
+        MapListToTable(MODEL.getDatabaseContent(), VIEW.getSortTable());
+    }
 
-        MAIN_VIEW.setButtonListener(MAIN_VIEW.getFilterBtn(), (ActionEvent e) -> {});
-        MAIN_VIEW.setButtonListener(MAIN_VIEW.getSearchBtn(), (ActionEvent e) -> {});
-        MAIN_VIEW.setButtonListener(MAIN_VIEW.getClusterBtn(), (ActionEvent e) -> {});
+    private void initializeButtonListeners() {
+        changeDisplay(VIEW.getSortBtn(), "sortMenu");
+        changeDisplay(VIEW.getBackToMainMenuBtn(), "mainMenu");
 
-        MAIN_VIEW.setButtonListener(MAIN_VIEW.getQuitBtn(), (ActionEvent e) -> {
+        VIEW.setButtonListener(VIEW.getFilterBtn(), (ActionEvent e) -> {});
+        VIEW.setButtonListener(VIEW.getSearchBtn(), (ActionEvent e) -> {});
+        VIEW.setButtonListener(VIEW.getClusterBtn(), (ActionEvent e) -> {});
+        VIEW.setButtonListener(VIEW.getQuitBtn(), (ActionEvent e) -> {
             JOptionPane.showMessageDialog(
                     null,
                     "Thank you for trying the application!",
@@ -48,24 +48,31 @@ public class DataProcessorController {
             System.exit(0);
         });
 
-        //SORT_VIEW listeners
-        SORT_VIEW.setButtonListener(SORT_VIEW.getTitleButton(), (ActionEvent e) -> {});
-        SORT_VIEW.setButtonListener(SORT_VIEW.getUsabilityButton(), (ActionEvent e) -> {});
-        SORT_VIEW.setButtonListener(SORT_VIEW.getCreationDateButton(), (ActionEvent e) -> {});
-        SORT_VIEW.setButtonListener(SORT_VIEW.getFileSizeButton(), (ActionEvent e) -> {});
-        SORT_VIEW.setButtonListener(SORT_VIEW.getLastUpdateButton(), (ActionEvent e) -> {});
+        //SORT PROCESSES BUTTONS
+        VIEW.setButtonListener(VIEW.getByTitleBtn(), (ActionEvent e) -> {
+            MODEL.setQuery("SELECT * FROM `dataset_entries_phpmyadmin` ORDER BY `title` ASC");
+            changeSortTableLabelDisplay("Kaggle Dataset (Sorted By: Title)");
+            MapListToTable(MODEL.getDatabaseContent(), VIEW.getSortTable());
+        });
+        VIEW.setButtonListener(VIEW.getByUsabilityBtn(), (ActionEvent e) -> {
+            MODEL.setQuery("SELECT * FROM `dataset_entries_phpmyadmin` ORDER BY `usability` DESC");
+            changeSortTableLabelDisplay("Kaggle Dataset (Sorted By: Usability)");
+            MapListToTable(MODEL.getDatabaseContent(), VIEW.getSortTable());
+        });
+        VIEW.setButtonListener(VIEW.getByCreationDateBtn(), (ActionEvent e) -> {
+            MODEL.setQuery("SELECT * FROM `dataset_entries_phpmyadmin` ORDER BY `date_created` DESC");
+            changeSortTableLabelDisplay("Kaggle Dataset (Sorted By: Data of Creation)");
+            MapListToTable(MODEL.getDatabaseContent(), VIEW.getSortTable());
 
-        SORT_VIEW.setButtonListener(SORT_VIEW.getBackToMainMenuButton(), (ActionEvent e) -> {
-            MAIN_VIEW.initialize();
+        });
+        VIEW.setButtonListener(VIEW.getByLastUpdateBtn(), (ActionEvent e) -> {
+            MODEL.setQuery("SELECT * FROM `dataset_entries_phpmyadmin` ORDER BY `latest_update` DESC");
+            changeSortTableLabelDisplay("Kaggle Dataset (Sorted By: Latest Update)");
+            MapListToTable(MODEL.getDatabaseContent(), VIEW.getSortTable());
         });
     }
 
-    private void loadDatasetTable() {
-        List<Map<String, Object>> dbTbl = MAIN_MODEL.getDatabaseTable();
-        MapListToTable(dbTbl);
-    }
-
-    private void MapListToTable(List<Map<String, Object>> mapList) {
+    private void MapListToTable(List<Map<String, Object>> mapList, JTable table) {
         if (mapList != null && !mapList.isEmpty()) {
 
             Map<String, Object> firstRow = mapList.getFirst();
@@ -81,17 +88,17 @@ public class DataProcessorController {
                 }
             }
 
-            MAIN_VIEW.getDatasetTable().setModel(
+            table.setModel(
                     new DefaultTableModel(dataTable, columns)
             );
         }
 
-        JTableHeader header = MAIN_VIEW.getDatasetTable().getTableHeader();
+        JTableHeader header = table.getTableHeader();
         Font headerFont = header.getFont();
         header.setFont(headerFont.deriveFont(java.awt.Font.BOLD));
 
         FontMetrics headerLength = header.getFontMetrics(headerFont);
-        TableColumnModel columnModel = MAIN_VIEW.getDatasetTable().getColumnModel();
+        TableColumnModel columnModel = table.getColumnModel();
 
         for (int i = 0; i < columnModel.getColumnCount(); i++) {
             TableColumn column = columnModel.getColumn(i);
@@ -116,5 +123,17 @@ public class DataProcessorController {
                 column.setCellRenderer(centerRenderer);
             }
         }
+    }
+
+    private void changeDisplay(JButton button, String cardName) {
+        CardLayout cardLayout = (CardLayout) VIEW.getMainPanel().getLayout();
+        VIEW.setButtonListener(button, (ActionEvent e) -> {
+            cardLayout.show(VIEW.getMainPanel(), cardName);
+        });
+    }
+    private void changeSortTableLabelDisplay(String text) {
+        JLabel label = VIEW.getSortTableTitleLabel();
+        label.setText(text);
+        label.setFont(new Font(label.getFont().getName(), Font.BOLD, 20));
     }
 }

@@ -1,54 +1,83 @@
 package org.example.view;
 
-import org.example.Main;
-
 import javax.swing.*;
 import java.awt.event.ActionListener;
 
 public class DataProcessorView {
-    private JPanel MainPanel;
-    private JTable DatasetTable;
-    private JButton sortBtn;
-    private JButton quitBtn;
-    private JButton filterBtn;
-    private JButton clusterBtn;
-    private JButton searchBtn;
+    private JPanel mainPanel;
+    private JPanel menuPanel;
+    private JPanel sortingProcessesPanel;
+    private JTable datasetTable;
+    private JButton sortButton;
+    private JButton searchButton;
+    private JButton filterButton;
+    private JButton clusterButton;
+    private JButton quitButton;
+    private JButton byTitleButton;
+    private JButton byUsabilityButton;
+    private JButton byCreationDateButton;
+    private JButton backToMainMenuButton;
+    private JButton byLastUpdateButton;
+    private JTable sortTable;
+    private JLabel sortTableTitleLabel;
+
 
     public DataProcessorView() {
-        initialize();
-    }
-
-    public void initialize() {
         JFrame frame = new JFrame("Data Processing Program");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);
-        frame.add(MainPanel);
+        frame.add(mainPanel);
         frame.pack();
         frame.setVisible(true);
     }
 
     public JPanel getMainPanel() {
-        return MainPanel;
+        return mainPanel;
     }
 
     public JTable getDatasetTable() {
-        return DatasetTable;
+        return datasetTable;
+    }
+    public JTable getSortTable() {
+        return sortTable;
     }
 
+    public JLabel getSortTableTitleLabel() {
+        return sortTableTitleLabel;
+    }
+
+    //mainMenu card buttons
     public JButton getSortBtn() {
-        return sortBtn;
+        return sortButton;
     }
     public JButton getSearchBtn() {
-        return searchBtn;
+        return searchButton;
     }
     public JButton getFilterBtn() {
-        return filterBtn;
+        return filterButton;
     }
     public JButton getClusterBtn() {
-        return clusterBtn;
+        return clusterButton;
     }
     public JButton getQuitBtn() {
-        return quitBtn;
+        return quitButton;
+    }
+
+    //sortingProcesses card buttons
+    public JButton getByTitleBtn() {
+        return byTitleButton;
+    }
+    public JButton getByUsabilityBtn() {
+        return byUsabilityButton;
+    }
+    public JButton getByCreationDateBtn() {
+        return byCreationDateButton;
+    }
+    public JButton getBackToMainMenuBtn() {
+        return backToMainMenuButton;
+    }
+    public JButton getByLastUpdateBtn() {
+        return byLastUpdateButton;
     }
 
     public void setButtonListener(JButton button, ActionListener actionListener) {
