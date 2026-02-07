@@ -6,7 +6,7 @@ import java.awt.event.ActionListener;
 public class DataProcessorView {
     private JPanel mainPanel;
     private JPanel menuPanel;
-    private JPanel sortingProcessesPanel;
+    private JPanel reusablePanel;
     private JTable datasetTable;
     private JButton sortButton;
     private JButton searchButton;
@@ -18,8 +18,16 @@ public class DataProcessorView {
     private JButton byCreationDateButton;
     private JButton backToMainMenuButton;
     private JButton byLastUpdateButton;
-    private JTable sortTable;
-    private JLabel sortTableTitleLabel;
+    private JTable reusableTable;
+    private JLabel reusableTableTitleLabel;
+    private JPanel wrapperPanel;
+    private JScrollPane scrollWrapper;
+    private JLabel reusableInstructionLabel;
+    private JButton filterMedalButton;
+    private JButton filterFileTypeButton;
+    private JButton filterDateButton;
+    private JTable filterTable;
+    private JLabel filterTableLabel;
 
 
     public DataProcessorView() {
@@ -30,6 +38,8 @@ public class DataProcessorView {
         frame.add(mainPanel);
         frame.pack();
         frame.setVisible(true);
+
+        createUIComponents(); //creates reusable components.
     }
 
     public JPanel getMainPanel() {
@@ -40,11 +50,17 @@ public class DataProcessorView {
         return datasetTable;
     }
     public JTable getSortTable() {
-        return sortTable;
+        return reusableTable;
+    }
+    public JTable getFilterTable() {
+        return filterTable;
     }
 
     public JLabel getSortTableTitleLabel() {
-        return sortTableTitleLabel;
+        return reusableTableTitleLabel;
+    }
+    public JLabel getFilterTableLabel() {
+        return filterTableLabel;
     }
 
     //mainMenu card buttons
@@ -81,7 +97,30 @@ public class DataProcessorView {
         return byLastUpdateButton;
     }
 
+    //filteringProcesses card buttons
+    public JButton getFilterMedalButton() {
+        return filterMedalButton;
+    }
+    public JButton getFilterFileTypeButton() {
+        return filterFileTypeButton;
+    }
+    public JButton getFilterDateButton() {
+        return filterDateButton;
+    }
+
     public void setButtonListener(JButton button, ActionListener actionListener) {
         button.addActionListener(actionListener);
+    }
+
+    //reusable components
+    private void createUIComponents() {
+        reusablePanel = new JPanel();
+        reusableTable = new JTable();
+        reusableInstructionLabel = new JLabel("Please Select an Option Below.");
+        reusableTableTitleLabel = new JLabel();
+        wrapperPanel = new JPanel();
+        scrollWrapper = new JScrollPane();
+
+        backToMainMenuButton = new JButton("Back to Main Menu");
     }
 }
